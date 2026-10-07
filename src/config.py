@@ -30,3 +30,21 @@ SMALL_WEIGHT_KNOT = 12_000.0
 # Corrupted-label detector (robust two-pass residual cut on log price)
 RESID_REFIT_CUT = 0.30
 RESID_FLAG_CUT = 0.25
+
+# ---------------------------------------------------------------------------
+# Pre-registered tuning grid (committed before any tuning run).
+# Coordinate-wise search in this order; each step starts from the winner so far.
+# Score = raw MAE averaged over folds F1-F3. Candidates within TIE_TOLERANCE dollars
+# of the best score are tied, and the tie goes to the lowest h2 (Sep-Oct) MAE.
+# The corrupted-label cut (0.20/0.25/0.30) is not tuned: all three flag the same
+# 677 rows (empty residual gap 0.118-0.795, see Phase B).
+HYBRID_DEFAULTS = dict(trend="linear", ramp=True, damp=0.5, n_estimators=600, num_leaves=31,
+                       loss="huber", city_cats=False)
+TUNING_STEPS = [
+    ("trend form", [dict(trend="linear"), dict(trend="step"), dict(trend="damped", damp=0.5)]),
+    ("stage-2 size", [dict(n_estimators=n, num_leaves=l) for n in (400, 600, 1000) for l in (15, 31)]),
+    ("stage-2 loss", [dict(loss=x) for x in ("huber", "l2", "l1")]),
+    ("city categoricals in stage 2", [dict(city_cats=False), dict(city_cats=True)]),
+]
+TIE_TOLERANCE = 0.25
+STABILITY_SEEDS = (0, 1, 2)
