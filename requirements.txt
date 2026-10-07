@@ -1,0 +1,11 @@
+# Python 3.12. Exact versions the results were produced with.
+# pandas stays on 2.x because score.py requires pandas>=2.0,<3.
+pandas==2.3.3
+numpy==2.5.3
+matplotlib==3.11.2
+scikit-learn==1.9.1
+scipy==1.18.1
+lightgbm==4.7.0
+xgboost==3.4.1        # baseline models only
+python-docx==1.2.0    # report generation
+pytest==9.1.1         # tests/
