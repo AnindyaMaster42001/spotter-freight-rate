@@ -2,8 +2,8 @@ fold,model,n,metric,value
 F1 Aug,Hybrid (chosen),4759,MAE,79.91720599753829
 F1 Aug,"Hybrid, untuned defaults",4759,MAE,81.85184120819169
 F1 Aug,"Hybrid, no city categoricals",4759,MAE,81.39341380752983
-F1 Aug,"Hybrid, city cats routed",4759,MAE,79.91720599753829
 F1 Aug,Hybrid + quote_signal,4759,MAE,85.40990293073503
+F1 Aug,Hybrid without market_index,4759,MAE,197.27123231110738
 F1 Aug,Hybrid without trend,4759,MAE,120.84334717278635
 F1 Aug,Hybrid without quarter-end ramp,4759,MAE,94.37245062989199
 F1 Aug,Hybrid without trend or ramp,4759,MAE,108.99804897463504
@@ -17,8 +17,8 @@ F1 Aug,Hybrid 50/50 with Codex XGB,4759,MAE,94.18694164020668
 F2 Sep,Hybrid (chosen),4670,MAE,80.37062963898128
 F2 Sep,"Hybrid, untuned defaults",4670,MAE,82.41848325107483
 F2 Sep,"Hybrid, no city categoricals",4670,MAE,81.86300794129916
-F2 Sep,"Hybrid, city cats routed",4670,MAE,80.37062963898128
 F2 Sep,Hybrid + quote_signal,4670,MAE,79.86419839175633
+F2 Sep,Hybrid without market_index,4670,MAE,205.82852634231898
 F2 Sep,Hybrid without trend,4670,MAE,136.11949367999756
 F2 Sep,Hybrid without quarter-end ramp,4670,MAE,107.28022608611298
 F2 Sep,Hybrid without trend or ramp,4670,MAE,174.6444792679065
@@ -32,8 +32,8 @@ F2 Sep,Hybrid 50/50 with Codex XGB,4670,MAE,92.17096739369394
 h2 Sep-Oct,Hybrid (chosen),9523,MAE,88.51135767620391
 h2 Sep-Oct,"Hybrid, untuned defaults",9523,MAE,90.3061662172776
 h2 Sep-Oct,"Hybrid, no city categoricals",9523,MAE,89.90186253814726
-h2 Sep-Oct,"Hybrid, city cats routed",9523,MAE,88.51135767620391
 h2 Sep-Oct,Hybrid + quote_signal,9523,MAE,87.93442345339379
+h2 Sep-Oct,Hybrid without market_index,9523,MAE,169.17261357740458
 h2 Sep-Oct,Hybrid without trend,9523,MAE,154.2455982195934
 h2 Sep-Oct,Hybrid without quarter-end ramp,9523,MAE,102.49090514503483
 h2 Sep-Oct,Hybrid without trend or ramp,9523,MAE,173.23132446682973
@@ -47,8 +47,8 @@ h2 Sep-Oct,Hybrid 50/50 with Codex XGB,9523,MAE,100.35639180266917
 F3 Oct,Hybrid (chosen),4853,MAE,95.379359429397
 F3 Oct,"Hybrid, untuned defaults",4853,MAE,97.07030622437324
 F3 Oct,"Hybrid, no city categoricals",4853,MAE,96.64603929298868
-F3 Oct,"Hybrid, city cats routed",4853,MAE,95.379359429397
 F3 Oct,Hybrid + quote_signal,4853,MAE,94.86775284027806
+F3 Oct,Hybrid without market_index,4853,MAE,101.13394922837561
 F3 Oct,Hybrid without trend,4853,MAE,163.7408607328985
 F3 Oct,Hybrid without quarter-end ramp,4853,MAE,90.50418600553216
 F3 Oct,Hybrid without trend or ramp,4853,MAE,160.7835234725547
@@ -62,8 +62,8 @@ F3 Oct,Hybrid 50/50 with Codex XGB,4853,MAE,97.31580854285689
 F1 Aug,Hybrid (chosen),4759,RMSE,612.9906090034348
 F1 Aug,"Hybrid, untuned defaults",4759,RMSE,612.5097629328894
 F1 Aug,"Hybrid, no city categoricals",4759,RMSE,612.5304615291195
-F1 Aug,"Hybrid, city cats routed",4759,RMSE,612.9906090034348
 F1 Aug,Hybrid + quote_signal,4759,RMSE,613.0034239722796
+F1 Aug,Hybrid without market_index,4759,RMSE,628.8411990973777
 F1 Aug,Hybrid without trend,4759,RMSE,623.2499251892133
 F1 Aug,Hybrid without quarter-end ramp,4759,RMSE,613.0945715778879
 F1 Aug,Hybrid without trend or ramp,4759,RMSE,621.070893743138
@@ -77,8 +77,8 @@ F1 Aug,Hybrid 50/50 with Codex XGB,4759,RMSE,614.6842709442669
 F2 Sep,Hybrid (chosen),4670,RMSE,610.2737308562462
 F2 Sep,"Hybrid, untuned defaults",4670,RMSE,611.1910092166534
 F2 Sep,"Hybrid, no city categoricals",4670,RMSE,610.9756808828907
-F2 Sep,"Hybrid, city cats routed",4670,RMSE,610.2737308562462
 F2 Sep,Hybrid + quote_signal,4670,RMSE,610.012017712838
+F2 Sep,Hybrid without market_index,4670,RMSE,627.6793700873533
 F2 Sep,Hybrid without trend,4670,RMSE,623.7587881942426
 F2 Sep,Hybrid without quarter-end ramp,4670,RMSE,617.0404551832819
 F2 Sep,Hybrid without trend or ramp,4670,RMSE,635.6983388969259
@@ -92,8 +92,8 @@ F2 Sep,Hybrid 50/50 with Codex XGB,4670,RMSE,613.6963227338993
 h2 Sep-Oct,Hybrid (chosen),9523,RMSE,629.155299668098
 h2 Sep-Oct,"Hybrid, untuned defaults",9523,RMSE,629.7919225804912
 h2 Sep-Oct,"Hybrid, no city categoricals",9523,RMSE,629.6948494015842
-h2 Sep-Oct,"Hybrid, city cats routed",9523,RMSE,629.155299668098
 h2 Sep-Oct,Hybrid + quote_signal,9523,RMSE,628.9134851558159
+h2 Sep-Oct,Hybrid without market_index,9523,RMSE,636.6204051521894
 h2 Sep-Oct,Hybrid without trend,9523,RMSE,645.243195843945
 h2 Sep-Oct,Hybrid without quarter-end ramp,9523,RMSE,632.6083505197201
 h2 Sep-Oct,Hybrid without trend or ramp,9523,RMSE,650.9385649420068
@@ -107,8 +107,8 @@ h2 Sep-Oct,Hybrid 50/50 with Codex XGB,9523,RMSE,632.6856181202181
 F3 Oct,Hybrid (chosen),4853,RMSE,646.3885291739495
 F3 Oct,"Hybrid, untuned defaults",4853,RMSE,646.9013473301839
 F3 Oct,"Hybrid, no city categoricals",4853,RMSE,646.8432143380504
-F3 Oct,"Hybrid, city cats routed",4853,RMSE,646.3885291739495
 F3 Oct,Hybrid + quote_signal,4853,RMSE,646.2787014920774
+F3 Oct,Hybrid without market_index,4853,RMSE,643.5673308934879
 F3 Oct,Hybrid without trend,4853,RMSE,662.9259517796736
 F3 Oct,Hybrid without quarter-end ramp,4853,RMSE,644.4728708835743
 F3 Oct,Hybrid without trend or ramp,4853,RMSE,662.2072900592227
@@ -122,8 +122,8 @@ F3 Oct,Hybrid 50/50 with Codex XGB,4853,RMSE,646.817027354868
 F1 Aug,Hybrid (chosen),4759,MAPE,3.755351075175302
 F1 Aug,"Hybrid, untuned defaults",4759,MAPE,3.831523116635784
 F1 Aug,"Hybrid, no city categoricals",4759,MAPE,3.81619824746609
-F1 Aug,"Hybrid, city cats routed",4759,MAPE,3.755351075175302
 F1 Aug,Hybrid + quote_signal,4759,MAPE,3.959150446353639
+F1 Aug,Hybrid without market_index,4759,MAPE,8.880432135140738
 F1 Aug,Hybrid without trend,4759,MAPE,5.400576411895048
 F1 Aug,Hybrid without quarter-end ramp,4759,MAPE,4.385534327114716
 F1 Aug,Hybrid without trend or ramp,4759,MAPE,4.9244630327032315
@@ -137,8 +137,8 @@ F1 Aug,Hybrid 50/50 with Codex XGB,4759,MAPE,4.483739727392751
 F2 Sep,Hybrid (chosen),4670,MAPE,3.2890850892998413
 F2 Sep,"Hybrid, untuned defaults",4670,MAPE,3.3874691555072407
 F2 Sep,"Hybrid, no city categoricals",4670,MAPE,3.3632956254867676
-F2 Sep,"Hybrid, city cats routed",4670,MAPE,3.2890850892998413
 F2 Sep,Hybrid + quote_signal,4670,MAPE,3.282146295829328
+F2 Sep,Hybrid without market_index,4670,MAPE,8.585991236402451
 F2 Sep,Hybrid without trend,4670,MAPE,5.52975884536813
 F2 Sep,Hybrid without quarter-end ramp,4670,MAPE,4.325040580342541
 F2 Sep,Hybrid without trend or ramp,4670,MAPE,7.083527980191467
@@ -152,8 +152,8 @@ F2 Sep,Hybrid 50/50 with Codex XGB,4670,MAPE,3.7028960849080486
 h2 Sep-Oct,Hybrid (chosen),9523,MAPE,3.892160233380328
 h2 Sep-Oct,"Hybrid, untuned defaults",9523,MAPE,3.9793088699316166
 h2 Sep-Oct,"Hybrid, no city categoricals",9523,MAPE,3.9579887140257117
-h2 Sep-Oct,"Hybrid, city cats routed",9523,MAPE,3.892160233380328
 h2 Sep-Oct,Hybrid + quote_signal,9523,MAPE,3.891836015145046
+h2 Sep-Oct,Hybrid without market_index,9523,MAPE,7.36044713975578
 h2 Sep-Oct,Hybrid without trend,9523,MAPE,6.567834780251753
 h2 Sep-Oct,Hybrid without quarter-end ramp,9523,MAPE,4.433911178928928
 h2 Sep-Oct,Hybrid without trend or ramp,9523,MAPE,7.333860716560069
@@ -167,8 +167,8 @@ h2 Sep-Oct,Hybrid 50/50 with Codex XGB,9523,MAPE,4.323514343512373
 F3 Oct,Hybrid (chosen),4853,MAPE,4.438134745250611
 F3 Oct,"Hybrid, untuned defaults",4853,MAPE,4.5188871043904655
 F3 Oct,"Hybrid, no city categoricals",4853,MAPE,4.497342130933385
-F3 Oct,"Hybrid, city cats routed",4853,MAPE,4.438134745250611
 F3 Oct,Hybrid + quote_signal,4853,MAPE,4.452527047122077
+F3 Oct,Hybrid without market_index,4853,MAPE,4.753794424217156
 F3 Oct,Hybrid without trend,4853,MAPE,7.230176707977053
 F3 Oct,Hybrid without quarter-end ramp,4853,MAPE,4.284918598656863
 F3 Oct,Hybrid without trend or ramp,4853,MAPE,7.130487771854642
@@ -182,8 +182,8 @@ F3 Oct,Hybrid 50/50 with Codex XGB,4853,MAPE,4.618038046711803
 F1 Aug,Hybrid (chosen),4759,MedAE,19.832614945816204
 F1 Aug,"Hybrid, untuned defaults",4759,MedAE,20.764267643293806
 F1 Aug,"Hybrid, no city categoricals",4759,MedAE,20.394112492278055
-F1 Aug,"Hybrid, city cats routed",4759,MedAE,19.832614945816204
 F1 Aug,Hybrid + quote_signal,4759,MedAE,23.21716300201956
+F1 Aug,Hybrid without market_index,4759,MedAE,124.70044974595089
 F1 Aug,Hybrid without trend,4759,MedAE,56.972491959249055
 F1 Aug,Hybrid without quarter-end ramp,4759,MedAE,30.767529585318584
 F1 Aug,Hybrid without trend or ramp,4759,MedAE,45.7519239130861
@@ -197,8 +197,8 @@ F1 Aug,Hybrid 50/50 with Codex XGB,4759,MedAE,29.528998016964124
 F2 Sep,Hybrid (chosen),4670,MedAE,20.143975781319
 F2 Sep,"Hybrid, untuned defaults",4670,MedAE,21.358411751744484
 F2 Sep,"Hybrid, no city categoricals",4670,MedAE,20.983909989028916
-F2 Sep,"Hybrid, city cats routed",4670,MedAE,20.143975781319
 F2 Sep,Hybrid + quote_signal,4670,MedAE,19.46079377461274
+F2 Sep,Hybrid without market_index,4670,MedAE,131.96100534525453
 F2 Sep,Hybrid without trend,4670,MedAE,68.45705838852416
 F2 Sep,Hybrid without quarter-end ramp,4670,MedAE,36.56209139187075
 F2 Sep,Hybrid without trend or ramp,4670,MedAE,100.47191090410661
@@ -212,8 +212,8 @@ F2 Sep,Hybrid 50/50 with Codex XGB,4670,MedAE,24.46695765082859
 h2 Sep-Oct,Hybrid (chosen),9523,MedAE,22.11187527344191
 h2 Sep-Oct,"Hybrid, untuned defaults",9523,MedAE,23.439367412400543
 h2 Sep-Oct,"Hybrid, no city categoricals",9523,MedAE,23.166970439368924
-h2 Sep-Oct,"Hybrid, city cats routed",9523,MedAE,22.11187527344191
 h2 Sep-Oct,Hybrid + quote_signal,9523,MedAE,22.01494136870656
+h2 Sep-Oct,Hybrid without market_index,9523,MedAE,87.53679270325983
 h2 Sep-Oct,Hybrid without trend,9523,MedAE,80.56573164345991
 h2 Sep-Oct,Hybrid without quarter-end ramp,9523,MedAE,30.260588540515755
 h2 Sep-Oct,Hybrid without trend or ramp,9523,MedAE,97.04866825892123
@@ -227,8 +227,8 @@ h2 Sep-Oct,Hybrid 50/50 with Codex XGB,9523,MedAE,27.807795286522378
 F3 Oct,Hybrid (chosen),4853,MedAE,24.2675466572432
 F3 Oct,"Hybrid, untuned defaults",4853,MedAE,25.379957351730127
 F3 Oct,"Hybrid, no city categoricals",4853,MedAE,25.00140745346698
-F3 Oct,"Hybrid, city cats routed",4853,MedAE,24.2675466572432
 F3 Oct,Hybrid + quote_signal,4853,MedAE,24.108213264268215
+F3 Oct,Hybrid without market_index,4853,MedAE,27.24377912820637
 F3 Oct,Hybrid without trend,4853,MedAE,86.02858072864183
 F3 Oct,Hybrid without quarter-end ramp,4853,MedAE,20.27718451600481
 F3 Oct,Hybrid without trend or ramp,4853,MedAE,84.06329267117303
@@ -242,8 +242,8 @@ F3 Oct,Hybrid 50/50 with Codex XGB,4853,MedAE,24.40119904018775
 F1 Aug,Hybrid (chosen),4759,MedAPE,1.1025154498594603
 F1 Aug,"Hybrid, untuned defaults",4759,MedAPE,1.1712652660215142
 F1 Aug,"Hybrid, no city categoricals",4759,MedAPE,1.1655764562363997
-F1 Aug,"Hybrid, city cats routed",4759,MedAPE,1.1025154498594603
 F1 Aug,Hybrid + quote_signal,4759,MedAPE,1.276881838699393
+F1 Aug,Hybrid without market_index,4759,MedAPE,6.326791782807812
 F1 Aug,Hybrid without trend,4759,MedAPE,3.072045185497248
 F1 Aug,Hybrid without quarter-end ramp,4759,MedAPE,1.7054008928903468
 F1 Aug,Hybrid without trend or ramp,4759,MedAPE,2.5162663554061133
@@ -257,8 +257,8 @@ F1 Aug,Hybrid 50/50 with Codex XGB,4759,MedAPE,1.5897389267898794
 F2 Sep,Hybrid (chosen),4670,MedAPE,1.0574973422738416
 F2 Sep,"Hybrid, untuned defaults",4670,MedAPE,1.1478345048251462
 F2 Sep,"Hybrid, no city categoricals",4670,MedAPE,1.1111773249697086
-F2 Sep,"Hybrid, city cats routed",4670,MedAPE,1.0574973422738416
 F2 Sep,Hybrid + quote_signal,4670,MedAPE,1.035168263947965
+F2 Sep,Hybrid without market_index,4670,MedAPE,6.512852615411862
 F2 Sep,Hybrid without trend,4670,MedAPE,3.591884921325058
 F2 Sep,Hybrid without quarter-end ramp,4670,MedAPE,1.9913771485888807
 F2 Sep,Hybrid without trend or ramp,4670,MedAPE,5.03977685027354
@@ -272,8 +272,8 @@ F2 Sep,Hybrid 50/50 with Codex XGB,4670,MedAPE,1.341299689508542
 h2 Sep-Oct,Hybrid (chosen),9523,MedAPE,1.1970269692774085
 h2 Sep-Oct,"Hybrid, untuned defaults",9523,MedAPE,1.2684309429206686
 h2 Sep-Oct,"Hybrid, no city categoricals",9523,MedAPE,1.2554615894729086
-h2 Sep-Oct,"Hybrid, city cats routed",9523,MedAPE,1.1970269692774085
 h2 Sep-Oct,Hybrid + quote_signal,9523,MedAPE,1.1800935883011339
+h2 Sep-Oct,Hybrid without market_index,9523,MedAPE,4.630424763454306
 h2 Sep-Oct,Hybrid without trend,9523,MedAPE,4.2320119961881595
 h2 Sep-Oct,Hybrid without quarter-end ramp,9523,MedAPE,1.6586419003197368
 h2 Sep-Oct,Hybrid without trend or ramp,9523,MedAPE,4.92415406563114
@@ -287,8 +287,8 @@ h2 Sep-Oct,Hybrid 50/50 with Codex XGB,9523,MedAPE,1.5394239041917053
 F3 Oct,Hybrid (chosen),4853,MedAPE,1.3054761949188163
 F3 Oct,"Hybrid, untuned defaults",4853,MedAPE,1.3499028435888065
 F3 Oct,"Hybrid, no city categoricals",4853,MedAPE,1.3357747263113537
-F3 Oct,"Hybrid, city cats routed",4853,MedAPE,1.3054761949188163
 F3 Oct,Hybrid + quote_signal,4853,MedAPE,1.3208962341855233
+F3 Oct,Hybrid without market_index,4853,MedAPE,1.4788236212516266
 F3 Oct,Hybrid without trend,4853,MedAPE,4.493193618196608
 F3 Oct,Hybrid without quarter-end ramp,4853,MedAPE,1.09783968785749
 F3 Oct,Hybrid without trend or ramp,4853,MedAPE,4.365919370510987
@@ -302,8 +302,8 @@ F3 Oct,Hybrid 50/50 with Codex XGB,4853,MedAPE,1.3317558314810491
 F1 Aug,Hybrid (chosen),4759,cMAE,29.613721340440808
 F1 Aug,"Hybrid, untuned defaults",4759,cMAE,31.633487000576284
 F1 Aug,"Hybrid, no city categoricals",4759,cMAE,31.164677781555103
-F1 Aug,"Hybrid, city cats routed",4759,cMAE,29.613721340440808
 F1 Aug,Hybrid + quote_signal,4759,cMAE,35.21529047001894
+F1 Aug,Hybrid without market_index,4759,cMAE,148.65981180768506
 F1 Aug,Hybrid without trend,4759,cMAE,71.14572690202226
 F1 Aug,Hybrid without quarter-end ramp,4759,cMAE,44.27053635856836
 F1 Aug,Hybrid without trend or ramp,4759,cMAE,59.0881825210204
@@ -317,8 +317,8 @@ F1 Aug,Hybrid 50/50 with Codex XGB,4759,cMAE,44.16746039064461
 F2 Sep,Hybrid (chosen),4670,cMAE,28.911485992295024
 F2 Sep,"Hybrid, untuned defaults",4670,cMAE,30.92960570442204
 F2 Sep,"Hybrid, no city categoricals",4670,cMAE,30.383784785776836
-F2 Sep,"Hybrid, city cats routed",4670,cMAE,28.911485992295024
 F2 Sep,Hybrid + quote_signal,4670,cMAE,28.387739006682736
+F2 Sep,Hybrid without market_index,4670,cMAE,156.3107932401966
 F2 Sep,Hybrid without trend,4670,cMAE,85.33226976636928
 F2 Sep,Hybrid without quarter-end ramp,4670,cMAE,56.17333672617362
 F2 Sep,Hybrid without trend or ramp,4670,cMAE,124.37199371449205
@@ -332,8 +332,8 @@ F2 Sep,Hybrid 50/50 with Codex XGB,4670,cMAE,40.82716390588484
 h2 Sep-Oct,Hybrid (chosen),9523,cMAE,32.37228579250792
 h2 Sep-Oct,"Hybrid, untuned defaults",9523,cMAE,34.15888167997196
 h2 Sep-Oct,"Hybrid, no city categoricals",9523,cMAE,33.75608377942351
-h2 Sep-Oct,"Hybrid, city cats routed",9523,cMAE,32.37228579250792
 h2 Sep-Oct,Hybrid + quote_signal,9523,cMAE,31.782163120351807
+h2 Sep-Oct,Hybrid without market_index,9523,cMAE,114.39335970798618
 h2 Sep-Oct,Hybrid without trend,9523,cMAE,99.04702050034537
 h2 Sep-Oct,Hybrid without quarter-end ramp,9523,cMAE,46.554038175435615
 h2 Sep-Oct,Hybrid without trend or ramp,9523,cMAE,118.31813793499202
@@ -347,8 +347,8 @@ h2 Sep-Oct,Hybrid 50/50 with Codex XGB,9523,cMAE,44.34734809418995
 F3 Oct,Hybrid (chosen),4853,cMAE,34.748849325608
 F3 Oct,"Hybrid, untuned defaults",4853,cMAE,36.43876408583501
 F3 Oct,"Hybrid, no city categoricals",4853,cMAE,36.005839954516766
-F3 Oct,"Hybrid, city cats routed",4853,cMAE,34.748849325608
 F3 Oct,Hybrid + quote_signal,4853,cMAE,34.22883964258597
+F3 Oct,Hybrid without market_index,4853,cMAE,40.59754692441452
 F3 Oct,Hybrid without trend,4853,cMAE,104.212986146219
 F3 Oct,Hybrid without quarter-end ramp,4853,cMAE,29.77556792026362
 F3 Oct,Hybrid without trend or ramp,4853,cMAE,101.1875195197199
@@ -362,8 +362,8 @@ F3 Oct,Hybrid 50/50 with Codex XGB,4853,cMAE,36.69361067260008
 F1 Aug,Hybrid (chosen),4759,cMAPE,1.2948303910322616
 F1 Aug,"Hybrid, untuned defaults",4759,cMAPE,1.377022241335173
 F1 Aug,"Hybrid, no city categoricals",4759,cMAPE,1.3605027637267353
-F1 Aug,"Hybrid, city cats routed",4759,cMAPE,1.2948303910322616
 F1 Aug,Hybrid + quote_signal,4759,cMAPE,1.5111060229796156
+F1 Aug,Hybrid without market_index,4759,cMAPE,6.353401569840782
 F1 Aug,Hybrid without trend,4759,cMAPE,3.0535694308750227
 F1 Aug,Hybrid without quarter-end ramp,4759,cMAPE,1.9075124058296464
 F1 Aug,Hybrid without trend or ramp,4759,cMAPE,2.5541592339938464
@@ -377,8 +377,8 @@ F1 Aug,Hybrid 50/50 with Codex XGB,4759,cMAPE,2.0488021762206325
 F2 Sep,Hybrid (chosen),4670,cMAPE,1.2248129683667652
 F2 Sep,"Hybrid, untuned defaults",4670,cMAPE,1.3217858478714621
 F2 Sep,"Hybrid, no city categoricals",4670,cMAPE,1.2981870730999352
-F2 Sep,"Hybrid, city cats routed",4670,cMAPE,1.2248129683667652
 F2 Sep,Hybrid + quote_signal,4670,cMAPE,1.2120078126876306
+F2 Sep,Hybrid without market_index,4670,cMAPE,6.46432105686379
 F2 Sep,Hybrid without trend,4670,cMAPE,3.566985920800147
 F2 Sep,Hybrid without quarter-end ramp,4670,cMAPE,2.311103529030142
 F2 Sep,Hybrid without trend or ramp,4670,cMAPE,5.171232642934287
@@ -392,8 +392,8 @@ F2 Sep,Hybrid 50/50 with Codex XGB,4670,cMAPE,1.6558737594714337
 h2 Sep-Oct,Hybrid (chosen),9523,cMAPE,1.3668872486165793
 h2 Sep-Oct,"Hybrid, untuned defaults",9523,cMAPE,1.4526814593949386
 h2 Sep-Oct,"Hybrid, no city categoricals",9523,cMAPE,1.4320431115239654
-h2 Sep-Oct,"Hybrid, city cats routed",9523,cMAPE,1.3668872486165793
 h2 Sep-Oct,Hybrid + quote_signal,9523,cMAPE,1.3645266706996506
+h2 Sep-Oct,Hybrid without market_index,9523,cMAPE,4.76105213731065
 h2 Sep-Oct,Hybrid without trend,9523,cMAPE,4.177517874196804
 h2 Sep-Oct,Hybrid without quarter-end ramp,9523,cMAPE,1.9371236323548586
 h2 Sep-Oct,Hybrid without trend or ramp,9523,cMAPE,4.970112997270334
@@ -407,8 +407,8 @@ h2 Sep-Oct,Hybrid 50/50 with Codex XGB,9523,cMAPE,1.817672616904815
 F3 Oct,Hybrid (chosen),4853,cMAPE,1.4676491021642917
 F3 Oct,"Hybrid, untuned defaults",4853,cMAPE,1.5464058525084958
 F3 Oct,"Hybrid, no city categoricals",4853,cMAPE,1.5244507558563682
-F3 Oct,"Hybrid, city cats routed",4853,cMAPE,1.4676491021642917
 F3 Oct,Hybrid + quote_signal,4853,cMAPE,1.4855369231043687
+F3 Oct,Hybrid without market_index,4853,cMAPE,1.7205742818030603
 F3 Oct,Hybrid without trend,4853,cMAPE,4.418068084597194
 F3 Oct,Hybrid without quarter-end ramp,4853,cMAPE,1.2809543826811434
 F3 Oct,Hybrid without trend or ramp,4853,cMAPE,4.313435761734874
@@ -422,8 +422,8 @@ F3 Oct,Hybrid 50/50 with Codex XGB,4853,cMAPE,1.6471224390751196
 F1 Aug,Hybrid (chosen),4759,cBias,0.5912399800345023
 F1 Aug,"Hybrid, untuned defaults",4759,cBias,0.5921022625454933
 F1 Aug,"Hybrid, no city categoricals",4759,cBias,0.5922055227762195
-F1 Aug,"Hybrid, city cats routed",4759,cBias,0.5912399800345023
 F1 Aug,Hybrid + quote_signal,4759,cBias,0.5100925335932546
+F1 Aug,Hybrid without market_index,4759,cBias,6.146057450056281
 F1 Aug,Hybrid without trend,4759,cBias,-3.0795187846577003
 F1 Aug,Hybrid without quarter-end ramp,4759,cBias,1.6246785393511116
 F1 Aug,Hybrid without trend or ramp,4759,cBias,-2.4971829792081794
@@ -437,8 +437,8 @@ F1 Aug,Hybrid 50/50 with Codex XGB,4759,cBias,0.5453414733728688
 F2 Sep,Hybrid (chosen),4670,cBias,0.025564624464358546
 F2 Sep,"Hybrid, untuned defaults",4670,cBias,0.05235087696322119
 F2 Sep,"Hybrid, no city categoricals",4670,cBias,0.048324355612433784
-F2 Sep,"Hybrid, city cats routed",4670,cBias,0.025564624464358546
 F2 Sep,Hybrid + quote_signal,4670,cBias,0.28180110795709973
+F2 Sep,Hybrid without market_index,4670,cBias,6.245490857629311
 F2 Sep,Hybrid without trend,4670,cBias,-3.631479458171319
 F2 Sep,Hybrid without quarter-end ramp,4670,cBias,-2.0612019667262973
 F2 Sep,Hybrid without trend or ramp,4670,cBias,-5.330900009791334
@@ -452,8 +452,8 @@ F2 Sep,Hybrid 50/50 with Codex XGB,4670,cBias,-0.752002429495661
 h2 Sep-Oct,Hybrid (chosen),9523,cBias,-0.5125734708693183
 h2 Sep-Oct,"Hybrid, untuned defaults",9523,cBias,-0.4903036739811122
 h2 Sep-Oct,"Hybrid, no city categoricals",9523,cBias,-0.49694824735358917
-h2 Sep-Oct,"Hybrid, city cats routed",9523,cBias,-0.5125734708693183
 h2 Sep-Oct,Hybrid + quote_signal,9523,cBias,-0.39366949874897383
+h2 Sep-Oct,Hybrid without market_index,9523,cBias,4.597799699102403
 h2 Sep-Oct,Hybrid without trend,9523,cBias,-4.274463613299173
 h2 Sep-Oct,Hybrid without quarter-end ramp,9523,cBias,-1.6111810626986602
 h2 Sep-Oct,Hybrid without trend or ramp,9523,cBias,-5.114249824172902
@@ -467,8 +467,8 @@ h2 Sep-Oct,Hybrid 50/50 with Codex XGB,9523,cBias,-1.0904918719935293
 F3 Oct,Hybrid (chosen),4853,cBias,-0.9561101687921479
 F3 Oct,"Hybrid, untuned defaults",4853,cBias,-0.9428014309551697
 F3 Oct,"Hybrid, no city categoricals",4853,cBias,-0.9405505228981479
-F3 Oct,"Hybrid, city cats routed",4853,cBias,-0.9561101687921479
 F3 Oct,Hybrid + quote_signal,4853,cBias,-0.9957529483276994
+F3 Oct,Hybrid without market_index,4853,cBias,1.2399528419657202
 F3 Oct,Hybrid without trend,4853,cBias,-4.527665201654749
 F3 Oct,Hybrid without quarter-end ramp,4853,cBias,0.03470263063862927
 F3 Oct,Hybrid without trend or ramp,4853,cBias,-4.4159155091941065

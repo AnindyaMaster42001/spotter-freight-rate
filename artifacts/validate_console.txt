@@ -1,7 +1,6 @@
                                         Aug MAE  Sep MAE  Oct MAE  h2 MAE  avg MAE  avg RMSE  avg MAPE  avg MedAPE  avg cMAE  avg cMAPE  h2 cMAPE  Oct cBias%  h2 cBias%
 model                                                                                                                                                                   
 Hybrid (chosen)                           79.92    80.37    95.38   88.51    85.22    623.22      3.83        1.16     31.09       1.33      1.37       -0.96      -0.51
-Hybrid, city cats routed                  79.92    80.37    95.38   88.51    85.22    623.22      3.83        1.16     31.09       1.33      1.37       -0.96      -0.51
 Hybrid, no city categoricals              81.39    81.86    96.65   89.90    86.63    623.45      3.89        1.20     32.52       1.39      1.43       -0.94      -0.50
 Hybrid + quote_signal                     85.41    79.86    94.87   87.93    86.71    623.10      3.90        1.21     32.61       1.40      1.36       -1.00      -0.39
 Hybrid, untuned defaults                  81.85    82.42    97.07   90.31    87.11    623.53      3.91        1.22     33.00       1.42      1.45       -0.94      -0.49
@@ -15,22 +14,23 @@ Codex XGB-L1                             121.68   119.46   109.43  122.32   116.
 Linear, city indicators, no time terms   110.09   174.87   133.00  165.72   139.32    639.44      5.95        3.39     85.89       3.56      4.56       -2.87      -4.65
 Hybrid without trend                     120.84   136.12   163.74  154.25   140.23    636.64      6.05        3.72     86.90       3.68      4.18       -4.53      -4.27
 Hybrid without trend or ramp             109.00   174.64   160.78  173.23   148.14    639.66      6.38        3.97     94.88       4.01      4.97       -4.42      -5.11
+Hybrid without market_index              197.27   205.83   101.13  169.17   168.08    633.36      7.41        4.77    115.19       4.85      4.76        1.24       4.60
   Random 10% holdout (all months)              Hybrid (chosen)                MAE   91.53  cMAPE  1.23
+  Random 10% holdout (all months)              Hybrid, city cats not routed   MAE   91.53  cMAPE  1.23
   Random 10% holdout (all months)              Hybrid, no city categoricals   MAE   92.85  cMAPE  1.29
-  Random 10% holdout (all months)              Hybrid, city cats routed       MAE   91.53  cMAPE  1.23
   Random 10% holdout (all months)              Codex LGBM-L1                  MAE   95.34  cMAPE  1.45
   Forward: train Jan-Sep, test Oct             Hybrid (chosen)                MAE   95.38  cMAPE  1.47
+  Forward: train Jan-Sep, test Oct             Hybrid, city cats not routed   MAE   95.38  cMAPE  1.47
   Forward: train Jan-Sep, test Oct             Hybrid, no city categoricals   MAE   96.65  cMAPE  1.52
-  Forward: train Jan-Sep, test Oct             Hybrid, city cats routed       MAE   95.38  cMAPE  1.47
   Forward: train Jan-Sep, test Oct             Codex LGBM-L1                  MAE  110.58  cMAPE  2.13
-  Unseen cities: 8 withheld, test Sep-Oct      Hybrid (chosen)                MAE   89.58  cMAPE  1.73
+  Unseen cities: 8 withheld, test Sep-Oct      Hybrid (chosen)                MAE   88.18  cMAPE  1.62
+  Unseen cities: 8 withheld, test Sep-Oct      Hybrid, city cats not routed   MAE   89.58  cMAPE  1.73
   Unseen cities: 8 withheld, test Sep-Oct      Hybrid, no city categoricals   MAE   88.18  cMAPE  1.62
-  Unseen cities: 8 withheld, test Sep-Oct      Hybrid, city cats routed       MAE   88.18  cMAPE  1.62
   Unseen cities: 8 withheld, test Sep-Oct      Codex LGBM-L1                  MAE  110.56  cMAPE  2.61
 held-out cities: Greensboro, Milwaukee, Salt Lake City, Houston, New York, Amarillo, Fresno, Tulsa
-                                                  MAE                                                                               cMAPE                                                                      
-model                                   Codex LGBM-L1 Hybrid (chosen) Hybrid, city cats routed Hybrid, no city categoricals Codex LGBM-L1 Hybrid (chosen) Hybrid, city cats routed Hybrid, no city categoricals
-setting                                                                                                                                                                                                        
-Forward: train Jan-Sep, test Oct               110.58           95.38                    95.38                        96.65          2.13            1.47                     1.47                         1.52
-Random 10% holdout (all months)                 95.34           91.53                    91.53                        92.85          1.45            1.23                     1.23                         1.29
-Unseen cities: 8 withheld, test Sep-Oct        110.56           89.58                    88.18                        88.18          2.61            1.73                     1.62                         1.62
+                                                  MAE                                                                                   cMAPE                                                                          
+model                                   Codex LGBM-L1 Hybrid (chosen) Hybrid, city cats not routed Hybrid, no city categoricals Codex LGBM-L1 Hybrid (chosen) Hybrid, city cats not routed Hybrid, no city categoricals
+setting                                                                                                                                                                                                                
+Forward: train Jan-Sep, test Oct               110.58           95.38                        95.38                        96.65          2.13            1.47                         1.47                         1.52
+Random 10% holdout (all months)                 95.34           91.53                        91.53                        92.85          1.45            1.23                         1.23                         1.29
+Unseen cities: 8 withheld, test Sep-Oct        110.56           88.18                        89.58                        88.18          2.61            1.62                         1.73                         1.62

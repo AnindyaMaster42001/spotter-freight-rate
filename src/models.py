@@ -49,11 +49,16 @@ class StructuralModel:
     training window, slope times ``damp`` beyond it) or "none".
     """
 
-    def __init__(self, trend="linear", ramp=True, damp=0.5, quote_signal=False):
+    def __init__(self, trend="linear", ramp=True, damp=0.5, quote_signal=False, market_index=True):
         self.trend, self.ramp, self.damp, self.quote_signal = trend, ramp, damp, quote_signal
+        self.market_index = market_index
 
     def design(self, t: pd.DataFrame) -> pd.DataFrame:
         X = struct_X(t, trend=False, ramp=self.ramp)
+        if not self.market_index:   # ablation: weekday dummies stand in for the daily signal
+            X = X.drop(columns="lmi")
+            for k in range(1, 7):
+                X[f"dow{k}"] = (t["dow"] == k).astype(float)
         if self.trend == "linear":
             X["tm"] = t["tm"]
         elif self.trend == "damped":
@@ -91,10 +96,11 @@ class HybridModel:
 
     def __init__(self, trend="linear", ramp=True, damp=0.5, stage2=True, n_estimators=600,
                  num_leaves=31, loss="huber", city_cats=False, route_unseen=False,
-                 quote_signal=False, seed=config.SEED):
+                 quote_signal=False, market_index=True, seed=config.SEED):
         """route_unseen (with city_cats): rows whose pickup or delivery city was not in the
         training data get a second stage-2 model fitted without the city categoricals."""
-        self.stage1 = StructuralModel(trend, ramp, damp, quote_signal)
+        self.stage1 = StructuralModel(trend, ramp, damp, quote_signal, market_index)
+        self.market_index = market_index
         self.stage2, self.city_cats, self.quote_signal = stage2, city_cats, quote_signal
         self.route_unseen = route_unseen and city_cats
         self.lgbm_params = dict(
@@ -106,6 +112,8 @@ class HybridModel:
 
     def _residual_X(self, t: pd.DataFrame, city_cats: bool | None = None) -> pd.DataFrame:
         X = t[RESIDUAL_FEATURES].copy()
+        if not self.market_index:
+            X = X.drop(columns="lmi")
         if self.quote_signal:
             X["quote_signal"] = t["quote_signal"]
         if self.city_cats if city_cats is None else city_cats:
@@ -170,9 +178,11 @@ class NoTimeLinear:
 class CodexTree:
     """Codex's tree baselines: raw dollars, L1 loss, all rows (no label cleaning)."""
 
-    def __init__(self, kind="lgbm", quote_signal=True, seed=config.SEED):
+    def __init__(self, kind="lgbm", quote_signal=True, market_index=True, seed=config.SEED):
+        drop = set() if quote_signal else {"quote_signal"}
+        drop |= set() if market_index else {"market_index"}
         self.kind = kind
-        self.features = [f for f in CODEX_FEATURES if quote_signal or f != "quote_signal"]
+        self.features = [f for f in CODEX_FEATURES if f not in drop]
         self.seed = seed
 
     def _X(self, t):

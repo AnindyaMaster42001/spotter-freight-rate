@@ -1,0 +1,35 @@
+{
+  "validation": {
+    "n": 12000,
+    "min": 196.3,
+    "max": 7098.05,
+    "mean": 2395.5488641666666,
+    "median": 2076.17
+  },
+  "median_rate_per_mile": {
+    "Dry Van": {
+      "predicted": 2.0741,
+      "train_clean": 2.0458
+    },
+    "Flatbed": {
+      "predicted": 2.2569,
+      "train_clean": 2.2197
+    },
+    "Reefer": {
+      "predicted": 2.3473,
+      "train_clean": 2.312
+    }
+  },
+  "unseen_city_rows": {
+    "n": 1447,
+    "mean_rate_per_mile_unseen": 2.2262,
+    "mean_rate_per_mile_seen": 2.2232
+  },
+  "december": {
+    "min": 839.13,
+    "max": 881.33,
+    "mean": 859.3,
+    "first": 839.13,
+    "last": 881.33
+  }
+}

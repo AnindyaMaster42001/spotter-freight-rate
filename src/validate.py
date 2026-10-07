@@ -65,8 +65,13 @@ def split(raw: pd.DataFrame, train_mask, test_mask):
 
 
 def evaluate(raw: pd.DataFrame, factories: dict[str, Factory],
-             blends: dict[str, dict[str, float]] | None = None, verbose: bool = True) -> pd.DataFrame:
-    """Fit every model once per training window and score it on every fold."""
+             blends: dict[str, dict[str, float]] | None = None, verbose: bool = True,
+             save_h2: list[str] | None = None) -> pd.DataFrame:
+    """Fit every model once per training window and score it on every fold.
+
+    save_h2: model names whose h2 (Sep-Oct) row-level predictions are written to
+    artifacts/h2_predictions.csv for the report figures.
+    """
     rows = []
     for start in sorted({f[1] for f in FOLDS}):
         horizon = raw["date"] >= start
@@ -79,6 +84,11 @@ def evaluate(raw: pd.DataFrame, factories: dict[str, Factory],
                 print(f"  train < {start}  {name:<40} {time.time() - t0:5.1f}s", flush=True)
         for name, w in (blends or {}).items():
             preds[name] = sum(wt * preds[m] for m, wt in w.items())
+        if save_h2 and start == "2025-09-01":
+            out = te[["load_id", "date", "equipment", "posted_rate", "report_clean"]].copy()
+            for name in save_h2:
+                out[name] = np.round(preds[name], 2)
+            out.to_csv(config.ARTIFACTS_DIR / "h2_predictions.csv", index=False)
         for fold, s, e in FOLDS:
             if s != start:
                 continue
@@ -115,9 +125,8 @@ def benchmark_set(hybrid_kwargs: dict | None = None):
         "Hybrid (chosen)": lambda: models.HybridModel(**hk),
         "Hybrid, untuned defaults": models.HybridModel,
         "Hybrid, no city categoricals": lambda: models.HybridModel(**{**hk, "city_cats": False}),
-        "Hybrid, city cats routed": lambda: models.HybridModel(**{**hk, "city_cats": True,
-                                                                   "route_unseen": True}),
         "Hybrid + quote_signal": lambda: models.HybridModel(**{**hk, "quote_signal": True}),
+        "Hybrid without market_index": lambda: models.HybridModel(**{**hk, "market_index": False}),
         "Hybrid without trend": lambda: models.HybridModel(**no_trend),
         "Hybrid without quarter-end ramp": lambda: models.HybridModel(**{**hk, "ramp": False}),
         "Hybrid without trend or ramp": lambda: models.HybridModel(**{**no_trend, "ramp": False}),
@@ -138,9 +147,8 @@ def contrasts(raw: pd.DataFrame, hybrid_kwargs: dict | None = None) -> pd.DataFr
     """Random 10% split vs forward split, and the unseen-city simulation."""
     hk = dict(hybrid_kwargs or {})
     makers = {"Hybrid (chosen)": lambda: models.HybridModel(**hk),
+              "Hybrid, city cats not routed": lambda: models.HybridModel(**{**hk, "route_unseen": False}),
               "Hybrid, no city categoricals": lambda: models.HybridModel(**{**hk, "city_cats": False}),
-              "Hybrid, city cats routed": lambda: models.HybridModel(**{**hk, "city_cats": True,
-                                                                         "route_unseen": True}),
               "Codex LGBM-L1": lambda: models.CodexTree("lgbm")}
     rows = []
 
@@ -175,7 +183,8 @@ def main() -> None:
     hk = models.load_chosen_config()
 
     factories, blends = benchmark_set(hk)
-    long = evaluate(raw, factories, blends)
+    long = evaluate(raw, factories, blends, save_h2=[
+        "Hybrid (chosen)", "Codex LGBM-L1", "Hybrid without trend", "Structural only (stage 1)"])
     long.to_csv(config.ARTIFACTS_DIR / "fold_results.csv", index=False)
     summary = summarize(long)
     summary.round(3).to_csv(config.ARTIFACTS_DIR / "fold_summary.csv")

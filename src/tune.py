@@ -45,13 +45,16 @@ def main() -> None:
         current = win["config"]
         print(f"  -> {win['option']}\n", flush=True)
 
+    tuned = dict(current)
+    current = {**current, **config.POST_TUNING_OVERRIDES}
     stability = {s: score(raw, current, seed=s)["h2 MAE"] for s in config.STABILITY_SEEDS}
     print("seed stability (h2 MAE):", {s: round(v, 2) for s, v in stability.items()})
 
     config.ARTIFACTS_DIR.mkdir(exist_ok=True)
     pd.DataFrame(rows).round(3).to_csv(config.ARTIFACTS_DIR / "tuning_results.csv", index=False)
     config.CHOSEN_CONFIG_PATH.write_text(json.dumps(
-        {"hybrid": current, "score": cache[json.dumps(current, sort_keys=True)],
+        {"hybrid": current, "tuned": tuned, "post_tuning_overrides": config.POST_TUNING_OVERRIDES,
+         "score": cache[json.dumps(tuned, sort_keys=True)],
          "seed_stability_h2_mae": stability}, indent=2) + "\n")
     print("chosen:", current)
 

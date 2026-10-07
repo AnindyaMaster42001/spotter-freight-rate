@@ -6,7 +6,20 @@
     "n_estimators": 1000,
     "num_leaves": 31,
     "loss": "l2",
+    "city_cats": true,
+    "route_unseen": true
+  },
+  "tuned": {
+    "trend": "linear",
+    "ramp": true,
+    "damp": 0.5,
+    "n_estimators": 1000,
+    "num_leaves": 31,
+    "loss": "l2",
     "city_cats": true
+  },
+  "post_tuning_overrides": {
+    "route_unseen": true
   },
   "score": {
     "Aug MAE": 79.91720599753829,

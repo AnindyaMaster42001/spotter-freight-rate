@@ -48,3 +48,10 @@ TUNING_STEPS = [
 ]
 TIE_TOLERANCE = 0.25
 STABILITY_SEEDS = (0, 1, 2)
+
+# Owner decision 2026-10-07, made after the tuning run and recorded as an override:
+# the fold test sets contain no unseen cities, so the grid could not see that city
+# categoricals cost +1.4 MAE on the unseen-city simulation. Rows touching a city absent
+# from training use a stage-2 model without city categoricals (folds unchanged at 85.22,
+# unseen-city simulation 89.58 -> 88.18).
+POST_TUNING_OVERRIDES = dict(route_unseen=True)
