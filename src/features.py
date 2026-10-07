@@ -42,6 +42,16 @@ def add_features(df: pd.DataFrame) -> pd.DataFrame:
     t["dlat"] = t["delivery_lat"] - t["pickup_lat"]
     t["dlon"] = t["delivery_lon"] - t["pickup_lon"]
     t["lane"] = t["pickup"] + "__" + t["delivery"]
+
+    # Extra features used only by the Codex tree baselines.
+    t["doy"] = d.dt.dayofyear
+    t["wsin"], t["wcos"] = np.sin(2 * np.pi * t["dow"] / 7), np.cos(2 * np.pi * t["dow"] / 7)
+    t["asin"], t["acos"] = np.sin(2 * np.pi * t["doy"] / 365), np.cos(2 * np.pi * t["doy"] / 365)
+    a, b, c, e = (np.radians(t[k]) for k in GEO)
+    t["hav"] = 3958.8 * 2 * np.arcsin(np.sqrt(
+        np.sin((c - a) / 2) ** 2 + np.cos(a) * np.cos(c) * np.sin((e - b) / 2) ** 2))
+    t["bearing"] = np.degrees(np.arctan2(np.sin(e - b) * np.cos(c),
+                                         np.cos(a) * np.sin(c) - np.sin(a) * np.cos(c) * np.cos(e - b)))
     if "posted_rate" in t:
         t["y"] = np.log(t["posted_rate"])
     return t

@@ -12,6 +12,7 @@ VALIDATION_PATH = DATA_DIR / "validation.csv"
 TEMPLATE_PATH = DATA_DIR / "validation_predictions_template.csv"
 DECEMBER_PATH = DATA_DIR / "december_chart_inputs.csv"
 PREDICTIONS_PATH = ROOT / "validation_predictions.csv"
+CHOSEN_CONFIG_PATH = ARTIFACTS_DIR / "chosen_config.json"
 
 SEED = 0
 
