@@ -33,7 +33,8 @@ plt.rcParams.update({
 def _save(fig, name):
     """Vector PDF for the LaTeX report."""
     FIG_DIR.mkdir(parents=True, exist_ok=True)
-    fig.savefig(FIG_DIR / name.replace(".png", ".pdf"), bbox_inches="tight", facecolor="white")
+    fig.savefig(FIG_DIR / name.replace(".png", ".pdf"), bbox_inches="tight", facecolor="white",
+                metadata={"CreationDate": None})   # no timestamp: rebuilds are byte-identical
     plt.close(fig)
 
 

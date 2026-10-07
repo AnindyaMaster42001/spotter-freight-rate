@@ -8,6 +8,7 @@ with latexmk. Run after src.validate, src.predict, score.py (src.run_all does th
 from __future__ import annotations
 
 import json
+import os
 import shutil
 import subprocess
 
@@ -171,8 +172,10 @@ def compile_pdf() -> None:
     if not shutil.which("latexmk"):
         print("latexmk not found: wrote", GEN.relative_to(config.ROOT), "but did not compile the PDF")
         return
+    # Fixed timestamps and ID so rebuilding an unchanged report gives an identical PDF.
+    env = {**os.environ, "SOURCE_DATE_EPOCH": "1791331200", "FORCE_SOURCE_DATE": "1"}
     subprocess.run(["latexmk", "-pdf", "-interaction=nonstopmode", "-halt-on-error", "-quiet", TEX.name],
-                   cwd=config.REPORTS_DIR, check=True, stdout=subprocess.DEVNULL)
+                   cwd=config.REPORTS_DIR, check=True, stdout=subprocess.DEVNULL, env=env)
     subprocess.run(["latexmk", "-c", TEX.name], cwd=config.REPORTS_DIR, check=True,
                    stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     print("report ->", PDF.relative_to(config.ROOT))
