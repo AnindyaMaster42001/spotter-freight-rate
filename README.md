@@ -64,8 +64,8 @@ python -m pip install -r requirements.txt
 ## Run
 
 ```bash
-python -m src.run_all                    # full pipeline, about 10 minutes on 16 cores
-python -m src.run_all --skip-validation  # reuse the committed fold results (about 2 minutes)
+python -m src.run_all                    # full pipeline, about 6 minutes on 16 cores
+python -m src.run_all --skip-validation  # reuse the committed fold results (under a minute)
 python -m pytest -q tests                # data-quality counts and output-format checks
 ```
 

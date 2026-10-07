@@ -356,7 +356,7 @@ def build(stats: dict) -> None:
     # Appendix -------------------------------------------------------------------------
     doc.add_heading("Appendix: how to reproduce", level=1)
     for line in ("python -m pip install -r requirements.txt",
-                 "python -m src.run_all          # full pipeline, about 10 minutes on 16 cores",
+                 "python -m src.run_all          # full pipeline, about 6 minutes on 16 cores",
                  "python -m src.tune             # optional: rerun the pre-registered tuning grid",
                  "python score.py --predictions validation_predictions.csv "
                  "--december-predictions data/december_chart_inputs.csv"):

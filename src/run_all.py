@@ -1,6 +1,6 @@
 """Run the whole pipeline end to end.
 
-    python -m src.run_all                    # everything (about 10 minutes on 16 cores)
+    python -m src.run_all                    # everything (about 6 minutes on 16 cores)
     python -m src.run_all --skip-validation  # reuse artifacts/fold_*.csv and contrasts.csv
 
 Steps: schema check -> data-quality table -> forward-fold benchmark + contrasts ->
