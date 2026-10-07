@@ -6,3 +6,4 @@ __pycache__/
 *Zone.Identifier
 artifacts/*.pkl
 .ipynb_checkpoints/
+artifacts/label_flags.csv

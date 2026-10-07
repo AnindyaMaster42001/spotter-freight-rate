@@ -1,0 +1,11 @@
+issue,train,train_pct,validation,validation_pct,handling
+Weight missing,300,0.62,165.0,1.38,Fill with training median |weight|; w_miss flag
+Weight negative (sign flip),292,0.61,145.0,1.21,Absolute value; w_neg flag
+"Weight at cap |w| = 47,500",1204,2.51,301.0,2.51,Keep (censored); w_cap flag
+"  of which -47,500",13,0.03,4.0,0.03,Absolute value
+"Weight at floor |w| = 5,000",32,0.07,7.0,0.06,Keep; w_floor flag
+market_index missing,374,0.78,249.0,2.08,Fill with that date's mean
+Distance at 70 mi floor,48,0.1,21.0,0.18,"Keep (clipped, not an error)"
+Corrupted label (|log resid| >= 0.25),677,1.41,,,Dropped from training only (detector refitted inside each fold)
+"  high cluster (median x3.33, range x2.21-5.26)",340,0.71,,,
+"  low cluster (median x0.29, range x0.17-0.45)",337,0.7,,,

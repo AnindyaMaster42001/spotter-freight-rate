@@ -31,6 +31,8 @@ python -m pip install -r requirements.txt
 
 ```bash
 python -m src.data              # load all four input files and check their schema
+python -m src.clean             # data-quality table -> artifacts/data_quality.csv
+python -m pytest -q tests       # data-quality counts and output-format checks
 ```
 
 The scorer (from Spotter's instructions):
