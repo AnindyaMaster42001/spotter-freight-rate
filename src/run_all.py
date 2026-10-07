@@ -4,7 +4,7 @@
     python -m src.run_all --skip-validation  # reuse artifacts/fold_*.csv and contrasts.csv
 
 Steps: schema check -> data-quality table -> forward-fold benchmark + contrasts ->
-final fit on Jan-Oct -> predictions + December chart -> score.py -> figures -> DOCX report.
+final fit on Jan-Oct -> predictions + December chart -> score.py -> figures -> PDF report (LaTeX).
 Tuning (python -m src.tune) is not rerun; its result is committed in
 artifacts/chosen_config.json.
 """
@@ -45,7 +45,7 @@ def main() -> None:
     step("predictions + December chart", predict.main)
     step("score.py", score)
     step("figures", figures.main)
-    step("DOCX report", report.main)
+    step("PDF report (LaTeX)", report.main)
 
 
 if __name__ == "__main__":

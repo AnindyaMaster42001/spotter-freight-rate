@@ -1,0 +1,16 @@
+\begin{tabular}{@{}>{\raggedright\arraybackslash}p{0.44\linewidth}rr>{\raggedright\arraybackslash}p{0.33\linewidth}@{}}
+\toprule
+\textbf{Issue} & \textbf{Train} & \textbf{Validation} & \textbf{Handling} \\
+\midrule
+Weight missing & 300 & 165 & Fill with training median |weight|; w\_miss flag \\
+Weight negative (sign flip) & 292 & 145 & Absolute value; w\_neg flag \\
+Weight at cap $|w|$ = 47,500 & 1,204 & 301 & Keep (censored); w\_cap flag \\
+\quad of which -47,500 & 13 & 4 & Absolute value \\
+Weight at floor $|w|$ = 5,000 & 32 & 7 & Keep; w\_floor flag \\
+market\_index missing & 374 & 249 & Fill with that date's mean \\
+Distance at 70 mi floor & 48 & 21 & Keep (clipped, not an error) \\
+Corrupted label (|log resid| $\geq$ 0.25) & 677 & --- & Dropped from training only (detector refitted inside each fold) \\
+\quad high cluster (median $\times$3.33, range $\times$2.21-5.26) & 340 & --- &  \\
+\quad low cluster (median $\times$0.29, range $\times$0.17-0.45) & 337 & --- &  \\
+\bottomrule
+\end{tabular}

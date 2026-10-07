@@ -5,7 +5,7 @@ Predicts `posted_rate` (USD) for 12,000 freight loads in November–December 202
 
 - **Predictions:** [`validation_predictions.csv`](validation_predictions.csv)
 - **December chart:** [`scorer_results/candidate_december.png`](scorer_results/candidate_december.png) (the filled inputs are in `data/december_chart_inputs.csv`)
-- **Report (DOCX):** [`reports/Freight_Rate_Report.docx`](reports/Freight_Rate_Report.docx), covering the validation and split approach, the model, and the December chart
+- **Report (PDF):** [`reports/Freight_Rate_Report.pdf`](reports/Freight_Rate_Report.pdf), covering the validation and split approach, the model, and the December chart. The LaTeX source is `reports/Freight_Rate_Report.tex`.
 
 ## Approach
 
@@ -61,6 +61,8 @@ python -m pip install -r requirements.txt
 
 `pandas` is pinned to 2.x because Spotter's `score.py` requires `pandas>=2.0,<3`.
 
+Building the PDF report also needs a TeX distribution with `latexmk`; it was built with TeX Live 2023 and uses the XCharter, Source Sans Pro and newtx packages. Without `latexmk`, the pipeline still runs end to end: it writes the report's generated inputs and skips the compile.
+
 ## Run
 
 ```bash
@@ -77,7 +79,7 @@ python -m pytest -q tests                # data-quality counts and output-format
 5. Writing `validation_predictions.csv` and filling `data/december_chart_inputs.csv`.
 6. `score.py`.
 7. Figures.
-8. The DOCX report.
+8. The PDF report: LaTeX, compiled with `latexmk`.
 
 Each step also runs on its own, for example `python -m src.validate --contrasts` or `python -m src.predict`.
 
@@ -108,11 +110,11 @@ src/
   train.py     final fit on Jan-Oct (artifacts/final_model/)
   predict.py   validation predictions, December chart, sanity checks
   figures.py   report figures (reports/figures/)
-  report.py    builds reports/Freight_Rate_Report.docx
+  report.py    writes reports/generated/ (numbers + tables) and compiles the LaTeX report
   run_all.py   the whole pipeline
 tests/         data-quality counts and output-format checks mirroring score.py
 artifacts/     fold results, tuning results, fitted model (coefficients JSON + LightGBM text)
-reports/       DOCX report, figures, Loom script
+reports/       LaTeX report source + PDF, generated numbers/tables, figures, Loom script
 score.py       Spotter's scorer, unchanged
 ```
 

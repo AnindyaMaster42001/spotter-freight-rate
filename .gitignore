@@ -7,3 +7,9 @@ __pycache__/
 artifacts/*.pkl
 .ipynb_checkpoints/
 artifacts/label_flags.csv
+reports/*.aux
+reports/*.log
+reports/*.fls
+reports/*.fdb_latexmk
+reports/*.out
+reports/*.synctex.gz

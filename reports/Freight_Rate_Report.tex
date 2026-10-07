@@ -1,0 +1,322 @@
+% Freight rate prediction report. Build with `python -m src.report`; every number and
+% table comes from generated/ (written by src/report.py from artifacts/), so edit the
+% prose here and the numbers there regenerate with the results.
+\documentclass[10pt,letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{XCharter}
+\usepackage[scale=0.95]{sourcesanspro}
+\usepackage[charter,vvarbb]{newtxmath}
+\usepackage{textcomp}
+\usepackage[margin=0.9in,top=0.8in,bottom=0.85in]{geometry}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{figures/}{../scorer_results/}}
+\definecolor{ink2}{HTML}{52514E}
+\definecolor{accent}{HTML}{1C5CAB}
+\definecolor{chosen}{HTML}{EEF3FA}
+
+\titleformat{\section}{\sffamily\bfseries\large\color{accent}}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.1em}{0.4em}
+\titleformat{\paragraph}[runin]{\bfseries}{}{0pt}{}[.]
+\titlespacing*{\paragraph}{0pt}{0.5em}{0.5em}
+\captionsetup{font={small,color=ink2},labelfont=bf,skip=4pt}
+\setlist[itemize]{leftmargin=1.2em,itemsep=2pt,topsep=3pt}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\renewcommand{\arraystretch}{1.12}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[L]{\small\color{ink2}Freight rate prediction}
+\fancyfoot[R]{\small\color{ink2}\thepage}
+
+\newcommand{\MI}{\texttt{market\_index}}
+\newcommand{\QS}{\texttt{quote\_signal}}
+\newcommand{\PR}{\texttt{posted\_rate}}
+
+\input{generated/numbers.tex}
+
+\begin{document}
+
+{\sffamily
+{\LARGE\bfseries Freight Rate Prediction}\\[3pt]
+{\large Model and validation report}\\[6pt]
+{\small\color{ink2}Spotter AI ML assessment \textbullet{} Anindya Kundu \textbullet{} October 2026}
+}
+\vspace{2pt}
+
+\section{Summary}
+
+The task is to predict \PR{} for 12,000 loads in November--December 2025 from 48,000
+labelled loads in January--October 2025. That makes it a forecast one to two months
+ahead, and the validation is built around that.
+
+\begin{itemize}
+  \item \textbf{Model.} A linear model on log price (distance, weight, equipment, \MI,
+    smooth geography, a linear time trend and an equipment-specific quarter-end ramp),
+    followed by LightGBM on its residuals. The residual model has no trend features, so it
+    cannot flatten the forward projection.
+  \item \textbf{Results.} Fold-average MAE of \HybAvgMAE{} on raw labels, against
+    \BlendAvgMAE{} for an XGBoost/LightGBM blend (an earlier candidate solution).
+    \HybHtwoMAE{} on the two-months-ahead block (train Jan--Aug, test Sep--Oct).
+    \HybAvgCMAPE{} MAPE on labels with the corrupted rows removed.
+  \item \textbf{Key data issue.} \NCorrupt{} training labels (\PctCorrupt) are off by a
+    multiplier (about $\times$\MultHigh{} or $\times$\MultLow). They are detected and
+    dropped from training. The validation labels presumably contain the same corruption,
+    which sets a floor on any model's raw error.
+  \item \textbf{December chart.} \DecFirst{} on 1~December rising to \DecLast{} on the
+    31st, with a weekly cycle (Thursday peaks) on top of the quarter-end ramp.
+\end{itemize}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.92\linewidth]{candidate_december.png}
+  \caption{December 2025 chart produced by \texttt{score.py} from the submitted predictions.}
+\end{figure}
+
+\section{Data and key findings}
+
+\paragraph{Distance and equipment} Distance explains most of the price: the correlation is
+\CorrClean{} once the corrupted labels are removed (\CorrRaw{} with them). Median rate per
+mile is \RpmDV{} for Dry Van, \RpmFB{} for Flatbed and \RpmRF{} for Reefer. Price grows
+less than proportionally with distance (log-log slope \DistSlope).
+
+\paragraph{A daily market signal} \MI{} varies far more between days than within a day.
+Its weekly cycle bottoms on Sunday and Monday and peaks on Thursday. It averages \MiTrain{} in
+training and \MiVal{} in validation, so it is a genuine input for November--December. Its
+price elasticity is \MiElast.
+
+\paragraph{Time structure that \MI{} does not explain} Once \MI{} is controlled for, prices
+still drift up about \Drift{} from January to October. They also climb through every
+quarter-end month (March, June, September) and reset on the 1st. From the first day of the
+month to the last, Flatbed rises \RampFB, Reefer \RampRF{} and Dry Van \RampDV{} (Figure~\ref{fig:time};
+these are fitted values from the final model). December is a quarter-end month.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.94\linewidth]{time_structure.pdf}
+  \caption{Daily mean residual by equipment from a model with no time terms (3-day mean).
+    Dotted lines mark quarter ends.}
+  \label{fig:time}
+\end{figure}
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=\linewidth]{market_index.pdf}
+  \caption{\MI{}: lower in November--December, with the same weekly cycle.}
+\end{figure}
+
+\paragraph{Unseen cities} Eight validation cities never appear in training (\NUnseen{}
+rows, 12\%). In training, city effects are small (\CityLo{} to \CityHi), almost identical
+whether the city is the pickup or the delivery ($r$ = \RPd), and they track latitude
+($r$ = \RLat, Figure~\ref{fig:city}). A smooth function of the coordinates therefore
+carries over to unseen cities. The coordinates are shifted from the real cities but are
+consistent for each city, so they are used as given.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.5\linewidth]{city_effects.pdf}
+  \caption{City price effect against latitude.}
+  \label{fig:city}
+\end{figure}
+
+\paragraph{\QS{} is noise} Within lane $\times$ equipment groups, after weight, \MI{} and
+time terms, adding \QS{} leaves the residual SD unchanged (\QsWithout{} without it,
+\QsWith{} with it). Its apparent signal comes from the equipment mix. Adding it to the hybrid
+worsens the fold-average MAE (\HybQsAvgMAE{} vs \HybAvgMAE), and removing it improves Codex's
+LightGBM (\LgbmAvgMAE{} $\rightarrow$ \LgbmNoQsAvgMAE). It is dropped.
+
+\section{Data-quality issues and fixes}
+
+\begin{table}[!htb]
+  \centering\small
+  \input{generated/tab_quality.tex}
+  \caption{Data-quality rules: counts on the training and validation files, and how each is handled.}
+\end{table}
+
+Corrupted labels are found with a two-pass robust fit. The first pass fits the structural
+model on log price with least squares. The second refits it on rows with
+$|\text{residual}| < 0.30$. Rows with $|\text{residual}| \geq 0.25$ are then flagged. The
+clusters are far from the clean rows: no residual falls between \GapLo{} and \GapHi{}
+(Figure~\ref{fig:corrupt}), so cut-offs of 0.20, 0.25 and 0.30 flag the same rows.
+
+The detector is refitted inside every fold, and flagged rows are removed from training
+only; every validation row is predicted. The other repairs touch inputs only: missing values
+get flags, so the model can learn whatever their absence means.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.94\linewidth]{corrupted_labels.pdf}
+  \caption{$\log(\text{actual}/\text{expected})$ on the full training set (log count scale).}
+  \label{fig:corrupt}
+\end{figure}
+
+\section{Split and validation approach}
+
+The validation set is the two months after the training data, so every split looks forward
+in time. Three expanding folds test August, September and October, each trained on all
+earlier data. A fourth block, \textbf{h2}, trains through August and tests
+September--October: like November--December, it is one to two months past the end of
+training, and it spans a quarter end. Everything is refitted from scratch in each fold,
+including the label cleaning and the weight imputation.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.9\linewidth]{folds.pdf}
+  \caption{Folds. The final model trains on all of January--October.}
+\end{figure}
+
+Model selection used raw MAE averaged over F1--F3, with h2 MAE as the tie-break. Raw labels
+include the corruption, as Spotter's labels presumably do, and MAE is robust to it. RMSE is
+not: every model lands between \RmseMin{} and \RmseMax{}, because the corrupted rows
+dominate the squared error. Clean-label MAPE (corrupted rows removed, for reporting only)
+shows the accuracy on legitimate prices.
+
+\begin{table}[!htb]
+  \centering\small
+  \input{generated/tab_splits.tex}
+  \caption{The same two models under three splits.}
+\end{table}
+
+A random split makes the two models look about equal (\RndHyb{} vs \RndLgbm). Going forward
+in time, the tree model loses ground (\FwdHyb{} vs \FwdLgbm), so a random split would have
+picked the wrong model. The unseen-city simulation withholds 8 training cities from
+training and tests on the September--October loads that touch them. The hybrid holds up
+(\UcHyb); the tree model, which relies on city identities, does not (\UcLgbm).
+
+\section{Model}
+
+\paragraph{Stage 1} Ordinary least squares on $\log(\PR)$, fitted on the cleaned rows. The
+inputs are:
+\begin{itemize}
+  \item log distance;
+  \item log weight, with a hinge term for loads under 12,000~lb, and a missing-weight flag;
+  \item log \MI{} and equipment dummies;
+  \item a quadratic surface in pickup and delivery coordinates;
+  \item a linear trend in months;
+  \item a quarter-end ramp per equipment: 0 on the first day of March, June, September or
+    December, rising to 1 on its last day, and 0 in other months.
+\end{itemize}
+
+\paragraph{Stage 2} LightGBM on the stage-1 residuals. Its inputs are distance, weight,
+\MI, equipment, coordinates, weekday, position within the month, and pickup and delivery
+city as categorical features. It has no trend input, so it cannot undo the trend. Rows that
+touch a city absent from training use a second stage-2 model without the city features.
+The prediction is $\exp(\text{stage 1} + \text{stage 2})$.
+
+\paragraph{Why not boosted trees alone} A tree predicts a constant beyond the last date it
+saw, so it cannot carry the drift or a quarter-end ramp into the future. In the h2
+backtest its error moves downward through the September ramp (Figure~\ref{fig:bias}), and
+it cannot know that December will ramp. The linear stage carries time forward; the trees
+handle the non-linear parts that do not depend on the date.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.9\linewidth]{backtest_bias.pdf}
+  \caption{h2 backtest: daily mean signed error on clean labels (end labels show the
+    last-5-day mean).}
+  \label{fig:bias}
+\end{figure}
+
+\begin{table}[!htb]
+  \centering\small
+  \input{generated/tab_models.tex}
+  \caption{Forward-fold results. MAE in dollars on raw labels; MAPE and clean MAPE in
+    percent, averaged over F1--F3. The Codex rows reproduce an earlier candidate solution:
+    tree models on raw dollars with every feature, including \QS{} and calendar features.}
+  \label{tab:models}
+\end{table}
+
+Removing the trend or \MI{} roughly doubles the error (Table~\ref{tab:models}), so handling time is the main problem.
+
+\paragraph{Tuning} Before any tuning run, a small grid was committed to the repository,
+along with the selection rule. The search went one setting at a time. It chose a linear
+trend (over a step per quarter or a damped trend), 1,000 trees with 31 leaves, L2 loss, and
+city categoricals. That improved the fold-average MAE from \HybUntunedAvgMAE{} to
+\HybAvgMAE.
+
+One change was made after tuning. The folds contain no unseen cities, and in the
+unseen-city simulation the city categoricals made results worse (\UcNotRouted{} vs \UcHyb{}
+with routing). So rows that touch an unseen city use the model without them; this leaves
+every fold score unchanged. Results are stable across seeds (h2 MAE \SeedsHtwo).
+
+\section{December prediction}
+
+The chart inputs contain no \MI. Each December day gets the mean \MI{} of that day's loads
+in \texttt{validation.csv}. This is an input feature Spotter supplied for the same dates,
+not a label, and it is how the model is applied to the validation loads too. Dropping it
+(with weekday dummies in its place) raises the h2 clean MAPE from \HybHtwoCMAPE{} to
+\HybNoMiHtwoCMAPE.
+
+The resulting chart reflects four things: the lower December \MI, the weekly cycle, the
+continuing drift, and the Dry Van quarter-end ramp. It averages \DecMean. A Codex-style
+LightGBM trained without \MI{} draws an almost flat line (\DecNoMiMin--\DecNoMiMax,
+Figure~\ref{fig:dec}), because a tree has no way to extend time effects beyond October.
+
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.86\linewidth]{december_crosscheck.pdf}
+  \caption{December chart lane: the submitted hybrid against a tree model without \MI.}
+  \label{fig:dec}
+\end{figure}
+
+\paragraph{Sanity checks} On the 12,000 validation predictions:
+\begin{itemize}
+  \item no value is missing or non-positive;
+  \item median rate per mile is \PredRpmDV{} for Dry Van (training \RpmDV), \PredRpmFB{} for
+    Flatbed (\RpmFB) and \PredRpmRF{} for Reefer (\RpmRF);
+  \item rows touching an unseen city average \UnseenRpm/mi, against \SeenRpm/mi for the rest.
+\end{itemize}
+
+\section{Limitations and next steps}
+
+\begin{itemize}
+  \item \textbf{Extrapolation.} The linear trend and the December ramp are projected two
+    months beyond the data. The ramp held in 3 of 3 quarters but cannot be checked for
+    December. In the backtests the model under-predicted October, the month after a
+    quarter end, by \HybOctBias.
+  \item \textbf{Holidays.} Holiday effects in late December cannot be learned from
+    January--October data.
+  \item \textbf{Label corruption.} If the validation labels contain the same
+    $\sim$\PctCorrupt{} corruption, raw MAE and especially RMSE will carry an error floor
+    that no model can remove.
+  \item \textbf{Next steps.} Quantile models for prediction intervals; drift monitoring on
+    \MI{} and the residual level; monthly refits as new labels arrive; checking the
+    corruption mechanism with the data owner.
+\end{itemize}
+
+\section*{Appendix: how to reproduce}
+
+{\small
+\begin{verbatim}
+python -m pip install -r requirements.txt
+python -m src.run_all            # full pipeline, about 6 minutes on 16 cores
+python -m src.tune               # optional: rerun the pre-registered tuning grid
+python score.py --predictions validation_predictions.csv \
+                --december-predictions data/december_chart_inputs.csv
+\end{verbatim}
+}
+
+{\small\raggedright
+Code map: \texttt{src/clean.py} (input repairs, corrupted-label detector),
+\texttt{src/models.py} (\texttt{HybridModel}, baselines), \texttt{src/validate.py} (folds,
+metrics, contrasts), \texttt{src/tune.py} (pre-registered grid), \texttt{src/train.py} and
+\texttt{src/predict.py} (final fit, outputs), \texttt{src/report.py} (this report; its numbers
+are generated into \texttt{reports/generated/}). The README maps every file.
+
+{\color{ink2}\Versions.}
+}
+
+\end{document}
