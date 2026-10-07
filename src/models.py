@@ -90,10 +90,13 @@ class HybridModel:
     """Stage 1 structural model, then LightGBM on its log residuals (cleaned rows only)."""
 
     def __init__(self, trend="linear", ramp=True, damp=0.5, stage2=True, n_estimators=600,
-                 num_leaves=31, loss="huber", city_cats=False, quote_signal=False,
-                 seed=config.SEED):
+                 num_leaves=31, loss="huber", city_cats=False, route_unseen=False,
+                 quote_signal=False, seed=config.SEED):
+        """route_unseen (with city_cats): rows whose pickup or delivery city was not in the
+        training data get a second stage-2 model fitted without the city categoricals."""
         self.stage1 = StructuralModel(trend, ramp, damp, quote_signal)
         self.stage2, self.city_cats, self.quote_signal = stage2, city_cats, quote_signal
+        self.route_unseen = route_unseen and city_cats
         self.lgbm_params = dict(
             objective=LGBM_OBJECTIVE[loss], n_estimators=n_estimators, learning_rate=0.03,
             num_leaves=num_leaves, min_child_samples=40, subsample=0.8, subsample_freq=1,
@@ -101,11 +104,11 @@ class HybridModel:
         if loss == "huber":
             self.lgbm_params["alpha"] = 0.05
 
-    def _residual_X(self, t: pd.DataFrame) -> pd.DataFrame:
+    def _residual_X(self, t: pd.DataFrame, city_cats: bool | None = None) -> pd.DataFrame:
         X = t[RESIDUAL_FEATURES].copy()
         if self.quote_signal:
             X["quote_signal"] = t["quote_signal"]
-        if self.city_cats:
+        if self.city_cats if city_cats is None else city_cats:
             for c in ("pickup", "delivery"):
                 X[c] = pd.Categorical(t[c], categories=self.cities_)   # unseen city -> missing
         return X
@@ -118,12 +121,24 @@ class HybridModel:
             self.cities_ = sorted(set(c["pickup"]) | set(c["delivery"]))
             resid = c["y"].to_numpy() - self.stage1.predict_log(c)
             self.lgbm_ = lgb.LGBMRegressor(**self.lgbm_params).fit(self._residual_X(c), resid)
+            if self.route_unseen:
+                self.lgbm_nocity_ = lgb.LGBMRegressor(**self.lgbm_params).fit(
+                    self._residual_X(c, city_cats=False), resid)
         return self
+
+    def unseen_city(self, t: pd.DataFrame) -> np.ndarray:
+        known = set(self.cities_)
+        return (~t["pickup"].isin(known) | ~t["delivery"].isin(known)).to_numpy()
 
     def predict_log(self, t: pd.DataFrame) -> np.ndarray:
         out = self.stage1.predict_log(t)
         if self.stage2:
-            out = out + self.lgbm_.predict(self._residual_X(t))
+            r = self.lgbm_.predict(self._residual_X(t))
+            if self.route_unseen:
+                u = self.unseen_city(t)
+                if u.any():
+                    r[u] = self.lgbm_nocity_.predict(self._residual_X(t[u], city_cats=False))
+            out = out + r
         return out
 
     def predict(self, t: pd.DataFrame) -> np.ndarray:

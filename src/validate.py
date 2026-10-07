@@ -113,6 +113,10 @@ def benchmark_set(hybrid_kwargs: dict | None = None):
     no_trend = {**hk, "trend": "none"}
     factories = {
         "Hybrid (chosen)": lambda: models.HybridModel(**hk),
+        "Hybrid, untuned defaults": models.HybridModel,
+        "Hybrid, no city categoricals": lambda: models.HybridModel(**{**hk, "city_cats": False}),
+        "Hybrid, city cats routed": lambda: models.HybridModel(**{**hk, "city_cats": True,
+                                                                   "route_unseen": True}),
         "Hybrid + quote_signal": lambda: models.HybridModel(**{**hk, "quote_signal": True}),
         "Hybrid without trend": lambda: models.HybridModel(**no_trend),
         "Hybrid without quarter-end ramp": lambda: models.HybridModel(**{**hk, "ramp": False}),
@@ -134,6 +138,9 @@ def contrasts(raw: pd.DataFrame, hybrid_kwargs: dict | None = None) -> pd.DataFr
     """Random 10% split vs forward split, and the unseen-city simulation."""
     hk = dict(hybrid_kwargs or {})
     makers = {"Hybrid (chosen)": lambda: models.HybridModel(**hk),
+              "Hybrid, no city categoricals": lambda: models.HybridModel(**{**hk, "city_cats": False}),
+              "Hybrid, city cats routed": lambda: models.HybridModel(**{**hk, "city_cats": True,
+                                                                         "route_unseen": True}),
               "Codex LGBM-L1": lambda: models.CodexTree("lgbm")}
     rows = []
 
@@ -142,7 +149,7 @@ def contrasts(raw: pd.DataFrame, hybrid_kwargs: dict | None = None) -> pd.DataFr
             p = make().fit(tr).predict(te)
             m = metrics(p, te["posted_rate"].to_numpy(), te["report_clean"].to_numpy())
             rows.append(dict(setting=setting, model=name, **m))
-            print(f"  {setting:<44} {name:<20} MAE {m['MAE']:7.2f}", flush=True)
+            print(f"  {setting:<44} {name:<30} MAE {m['MAE']:7.2f}  cMAPE {m['cMAPE']:5.2f}", flush=True)
 
     rnd = np.random.RandomState(config.SEED).rand(len(raw)) < 0.10
     score("Random 10% holdout (all months)", *split(raw, ~rnd, rnd))
